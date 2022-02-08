@@ -1,0 +1,14 @@
+﻿@page "/"
+<h3>Inicio</h3>
+<p>
+    <input @bind="InputValue" @bind:event="oninput" />
+</p>
+
+<p>
+    <code>InputValue</code>: @InputValue
+</p>
+
+@code {
+#nullable enable
+    private string? InputValue { get; set; }
+}

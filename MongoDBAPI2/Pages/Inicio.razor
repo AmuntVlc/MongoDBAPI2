@@ -1,0 +1,14 @@
+﻿@page "/Inicio"
+<h3>Index</h3>
+<p>Hola
+    <input @bind="InputValue" @bind:event="oninput" />
+</p>
+
+<p>
+    <code>InputValue</code>: @InputValue
+</p>
+
+
+@code {
+    private string InputValue { get; set; }
+}

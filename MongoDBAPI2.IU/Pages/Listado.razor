@@ -1,0 +1,63 @@
+﻿@page "/"
+@inject ILibroServicio LibroServicio
+@inject IJSRuntime JsRuntime
+<h3>Listado de Libros</h3>
+<table class="table">
+    <tbody>
+        <tr>
+            <td colspan="2">
+                <a href="/DetallesLibro">Añadir Nuevo</a>
+            </td>
+        </tr>
+    </tbody>
+</table>
+<input type="button" value="javascript" @onclick="Alert" class="btn btn-secondary" />
+@if (libros == null)
+{
+    <p><em>Cargando...</em></p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Nombre</th>
+                <th>Autor</th>
+                <th>Categoría</th>
+                <th>Precio</th>
+                <th>Ciudad</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var libro in libros)
+            {
+            <tr>
+                <td>@libro.BookName</td>
+                <td>@libro.Author</td>
+                <td>@libro.Category</td>
+                <td>@libro.Price</td>
+                <td>@libro.Ciudad</td>
+                <td><a href="/DetallesLibro/@libro.Id">Editar</a></td>
+                <td><a href="/BorrarProducto/@libro.Id">Borrar</a></td>
+            </tr>
+            }
+        </tbody>
+    </table>
+}
+@code {
+    IEnumerable<Libro> libros;
+    protected override async Task OnInitializedAsync()
+    {
+        libros = await LibroServicio.ObtenerTodosLibros();
+    }
+    string message = "Saludos desde javascript";
+
+    private async Task Alert()
+    {
+        await JsRuntime.InvokeVoidAsync("alert", message);
+        //bool confirmed = await JsRuntime.InvokeAsync<bool>("confirm", "Are you sure?"); // Confirm
+        //string prompted = await JsRuntime.InvokeAsync<string>("prompt", "Take some input:"); // Prompt
+
+    }
+}

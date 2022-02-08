@@ -1,0 +1,68 @@
+﻿@page  "/DetallesLibro/"
+@page "/DetallesLibro/{id}"
+@inject ILibroServicio LibroServicio
+@inject NavigationManager navigate
+<h3>DetallesProducto</h3>
+<EditForm Model="@libro" OnValidSubmit="@GuardarLibro">
+    <table class="table">
+        <tr>
+            <td>Name:</td>
+            <td><input type="text" @bind="libro.BookName" /></td>
+        </tr>
+        <tr>
+            <td>Categoría:</td>
+            <td><input type="text" @bind="libro.Category" /></td>
+        </tr>
+        <tr>
+            <td>Autor:</td>
+            <td><input type="text" @bind="libro.Author" /></td>
+        </tr>
+        <tr>
+            <td>Precio:</td>
+            <td><input @bind="libro.Price" /></td>
+        </tr>
+        <tr>
+            <td>Ciudad:</td>
+            <td>
+                <InputSelect @bind="libro.Ciudad" TValue="String">
+                    <option selected value="">Select</option>
+                    <option value="">Valencia</option>
+                    <option value="">Cádiz</option>
+                    <option value="">Santander1</option>
+                </InputSelect>
+            </td>
+            
+        </tr>
+        <tr>
+            <td colspan="2" style="text-align:center;">
+                <input type="submit" value="Guardar" class="btn-success" />
+                <input type="button" value="Cancelar" class="btn-secondary" @onclick="Cancel" />
+            </td>
+        </tr>
+    </table>
+
+</EditForm>
+
+@code {
+
+    [Parameter]
+    public string id { get; set; }
+    Libro libro = new Libro();
+    List<string> Ciudades = new List<string> { "Valencia", "Cádiz", "Santander" };
+    protected override async Task OnInitializedAsync()
+    {
+        if (!string.IsNullOrEmpty(id))
+            libro = await LibroServicio.ObtenerLibro(id);
+    }
+
+
+    protected async Task GuardarLibro()
+    {
+        await LibroServicio.GuardarLibro(libro);
+        navigate.NavigateTo("/");
+    }
+    protected void Cancel()
+    {
+        navigate.NavigateTo("/");
+    }
+}
