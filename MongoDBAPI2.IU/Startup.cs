@@ -33,6 +33,8 @@ namespace MongoDBAPI2.IU
             /*services.AddSingleton<WeatherForecastService>();*/
                 services.AddHttpClient<ILibroServicio, LibroServicio>(
                 cliente => { cliente.BaseAddress = new Uri("https://localhost:44332/"); });
+            services.AddHttpClient<ICiudadServicio, CiudadServicio>(
+               cliente => { cliente.BaseAddress = new Uri("https://localhost:44332/"); });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

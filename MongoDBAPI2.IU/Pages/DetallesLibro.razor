@@ -1,6 +1,7 @@
 ﻿@page  "/DetallesLibro/"
 @page "/DetallesLibro/{id}"
 @inject ILibroServicio LibroServicio
+@inject ICiudadServicio CiudadServicio
 @inject NavigationManager navigate
 <h3>DetallesProducto</h3>
 <EditForm Model="@libro" OnValidSubmit="@GuardarLibro">
@@ -22,17 +23,18 @@
             <td><input @bind="libro.Price" /></td>
         </tr>
         <tr>
-            <td>Ciudad:</td>
-            <td>
-                <InputSelect @bind="libro.Ciudad" TValue="String">
-                    <option selected value="">Select</option>
-                    <option value="">Valencia</option>
-                    <option value="">Cádiz</option>
-                    <option value="">Santander</option>
-                </InputSelect>
-            </td>
-            
-        </tr>
+                <td>Ciudad:</td>
+                <td  colspan="2">
+                    <CtrlUsuarioInputSelect @bind-Value="libro.IdCiudad">
+                        <option selected value="">Select</option>
+                        @foreach(Ciudad ciudad in ciudades)
+                        {
+                        <option value="@ciudad.Id">@ciudad.Nombre</option>
+                        }
+                    </CtrlUsuarioInputSelect>
+                </td>
+
+            </tr>
         <tr>
             <td colspan="2" style="text-align:center;">
                 <input type="submit" value="Guardar" class="btn-success" />
@@ -48,11 +50,23 @@
     [Parameter]
     public string id { get; set; }
     Libro libro = new Libro();
-    List<string> Ciudades = new List<string> { "Valencia", "Cádiz", "Santander" };
+    List<Ciudad> ciudades = new List<Ciudad>
+            {
+                new Ciudad{Id=1,Nombre="Valencia"},
+                 new Ciudad{Id=2,Nombre="Mérida"},
+                  new Ciudad{Id=3,Nombre="León"}
+            };
+
+
+
     protected override async Task OnInitializedAsync()
     {
+        //ciudades = await CiudadServicio.ObtenerTodosCiudades();
         if (!string.IsNullOrEmpty(id))
+        {
             libro = await LibroServicio.ObtenerLibro(id);
+
+        }
     }
 
 

@@ -31,6 +31,8 @@ namespace MongoDBAPI2
             services.AddRazorPages();
             services.Configure<BookStoreDatabaseSettings>(Configuration.GetSection("LibreriaDatabase"));
             services.AddSingleton<BooksService>();
+            services.Configure<CiudadStoreDatabaseSettings>(Configuration.GetSection("LibreriaDatabase1"));
+            services.AddSingleton<CiudadesService>();
 
 
         }

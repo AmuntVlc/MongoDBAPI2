@@ -20,5 +20,7 @@ namespace MongoDBAPI2.Models
 
     public string Author { get; set; } = null!;
     public string Ciudad { get; set; } = null!;
+    public int IdCiudad { get; set; }
+
     }
 }
